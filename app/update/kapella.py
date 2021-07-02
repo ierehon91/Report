@@ -5,7 +5,7 @@ from pprint import pprint
 
 
 class UpdateKapella():
-    """Класс обработки данных csv файла, сформированного из АИС Капелла"""
+    """Класс получения данных csv файла, сформированного из АИС Капелла"""
     def __init__(self, path, delimiter):
         self.file_path = os.path.abspath(path)  # путь к csv файлу
         self.delimiter = delimiter  # символ разделитель в csv файле
