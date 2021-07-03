@@ -5,6 +5,14 @@ from app.date_formats.date_formats import get_str_date
 from pprint import pprint
 
 
+def _get_services(filter_data):
+    services = []
+    for filter_row in filter_data:
+        services.append(filter_row[2])
+    services = set(services)
+    return services
+
+
 class UpdatePvd3(Session):
     """Класс получения данных из ПК ПВД 3"""
     def __init__(self, url, username, password, filial_number):
@@ -78,17 +86,10 @@ class UpdatePvd3(Session):
         users = set(users)
         return users
 
-    def _get_services(self, filter_data):
-        services = []
-        for filter_row in filter_data:
-            services.append(filter_row[2])
-        services = set(services)
-        return services
-
     def get_pvd_data(self, year, month, day):
         filter_data = self._filter_data(year, month, day)
         users = self._get_users(filter_data)
-        services = self._get_services(filter_data)
+        services = _get_services(filter_data)
         date = get_str_date(year, month, day)
         data = []
         for user in users:
