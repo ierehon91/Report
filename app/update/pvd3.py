@@ -14,19 +14,17 @@ class UpdatePvd3(Session):
         self.filial_number = filial_number
         self.session = Session()
 
-
-
     def _get_login_url(self) -> str:
         """Возвращает url адрес авторицации в ПК ПВД 3"""
         return rf'http://{self.url}/api/rs/login'
 
-    def _get_report_url(self) -> str:
-        """Возвращает url адрес формирования очётов в ПК ПВД 3"""
-        return rf'http://{self.url}/api/rs/reports/execute'
-
     def _get_login_data(self) -> dict:
         """Возвращает словарь с логином и паролем для авторизации в ПК ПВД 3"""
         return {'username': self.username, 'password': self.password}
+
+    def _get_report_url(self) -> str:
+        """Возвращает url адрес формирования очётов в ПК ПВД 3"""
+        return rf'http://{self.url}/api/rs/reports/execute'
 
     def _get_report_data(self, year, month, day) -> dict:
         """Возвращает словарь с данными для составления отчёта в ПК ПВД 3 по форме Список обращений"""
@@ -51,6 +49,7 @@ class UpdatePvd3(Session):
         return self.session.post(url=self._get_report_url(), json=self._get_report_data(year, month, day)).text
 
     def _get_list_data(self, year, month, day):
+        """Разделение текста, полученного из ПК ПВД 3 на списки"""
         data = []
         pvd_text = self._parse_pvd_data(year, month, day).split('\n')
         for i in range(3, len(pvd_text) - 1):
@@ -59,6 +58,7 @@ class UpdatePvd3(Session):
         return data
 
     def _filter_data(self, year, month, day):
+        """Удаляются лишние данные в списке, ведётся подсчёт количества КУВИ и КУВД в одном обращении"""
         no_filter_data = self._get_list_data(year, month, day)
         filter_data = []
         for row in no_filter_data:
@@ -71,6 +71,7 @@ class UpdatePvd3(Session):
         return filter_data
 
     def _get_users(self, filter_data):
+        """Множество сотрудников, принявшие обращения"""
         users = []
         for filter_row in filter_data:
             users.append(filter_row[1])
@@ -78,13 +79,15 @@ class UpdatePvd3(Session):
         return users
 
     def _get_services(self, filter_data):
+        """Множество названий услуг, по которым велось обращение"""
         services = []
         for filter_row in filter_data:
             services.append(filter_row[2])
         services = set(services)
         return services
 
-    def get_pvd_data(self, year, month, day):
+    def get_pvd_data(self, year, month, day) -> list:
+        """Приём документов за определенную дату из ПК ПВД 3."""
         filter_data = self._filter_data(year, month, day)
         users = self._get_users(filter_data)
         services = self._get_services(filter_data)
