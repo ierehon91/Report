@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def get_str_date(year: int, month: int, day: int) -> str:
     """Преобразовывает дату в строку формата гггг-мм-дд"""
     if day >= 10:
@@ -13,3 +15,9 @@ def get_str_date(year: int, month: int, day: int) -> str:
     year = str(year)
 
     return f'{year}-{month}-{day}'
+
+
+def transform_date_to_int(year, month, day) -> int:
+    """Преобразовывает дату в целочисленное значение"""
+    dt = datetime(year, month, day)
+    return int(round(dt.timestamp() * 1000))
