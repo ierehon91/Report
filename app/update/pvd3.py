@@ -1,6 +1,8 @@
 from requests import Session
 from datetime import datetime
 import re
+from app.date_formats.date_formats import get_str_date
+from pprint import pprint
 
 
 class UpdatePvd3(Session):
@@ -59,14 +61,49 @@ class UpdatePvd3(Session):
 
     def _filter_data(self, year, month, day):
         no_filter_data = self._get_list_data(year, month, day)
-        data = []
+        filter_data = []
         for row in no_filter_data:
             date = row[3]
             user = row[2]
             service = row[5]
             kuvi_kuvd_text = ''.join(row[6:])
             count_reception = len(re.findall('КУВИ', kuvi_kuvd_text)) + len(re.findall('КУВД', kuvi_kuvd_text))
-            data.append((date, user, service, count_reception))
+            filter_data.append((date, user, service, count_reception))
+        return filter_data
+
+    def _get_users(self, filter_data):
+        users = []
+        for filter_row in filter_data:
+            users.append(filter_row[1])
+        users = set(users)
+        return users
+
+    def _get_services(self, filter_data):
+        services = []
+        for filter_row in filter_data:
+            services.append(filter_row[2])
+        services = set(services)
+        return services
+
+    def get_pvd_data(self, year, month, day):
+        filter_data = self._filter_data(year, month, day)
+        users = self._get_users(filter_data)
+        services = self._get_services(filter_data)
+        date = get_str_date(year, month, day)
+        data = []
+        for user in users:
+            for service in services:
+                all_count = 0
+                for row in filter_data:
+                    if user == row[1] and service == row[2]:
+                        all_count += 1
+                if all_count > 0:
+                    data.append({'date_reception': date,
+                                 'user': user,
+                                 'service': service,
+                                 'count_reception': all_count,
+                                 'program_name': 'ПК ПВД 3'
+                                 })
         return data
 
 
@@ -76,5 +113,4 @@ pvd3_password = 'zmr00A'
 pvd3_filial_number = 'MFC-000002595'
 
 pvd3_data = UpdatePvd3(pvd3_url, pvd3_username, pvd3_password, pvd3_filial_number)
-for row in pvd3_data._filter_data(2021, 7, 1):
-    print(row)
+pprint(pvd3_data.get_pvd_data(2021, 7, 2))

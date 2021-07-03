@@ -2,6 +2,7 @@ import csv
 import os
 import codecs
 from pprint import pprint
+from app.date_formats.date_formats import get_str_date
 
 
 class UpdateKapella():
@@ -9,22 +10,6 @@ class UpdateKapella():
     def __init__(self, path, delimiter):
         self.file_path = os.path.abspath(path)  # путь к csv файлу
         self.delimiter = delimiter  # символ разделитель в csv файле
-
-    def _get_str_date(self, year: int, month: int, day: int) -> str:
-        """Преобразовывает дату в строку формата гггг-мм-дд"""
-        if day >= 10:
-            day = str(day)
-        else:
-            day = '0' + str(day)
-
-        if month >= 10:
-            month = str(month)
-        else:
-            month = '0' + str(month)
-
-        year = str(year)
-
-        return f'{year}-{month}-{day}'
 
     def _open_csv_file(self) -> list:
         """Открывает файл csv и возвращает его содержимое в виде списка"""
@@ -38,7 +23,7 @@ class UpdateKapella():
         data = []
         for row in file_reader:
             one_record = {}
-            one_record['date_reception'] = self._get_str_date(year, month, day)  # дата приёма
+            one_record['date_reception'] = get_str_date(year, month, day)  # дата приёма
             # Если в csv файле отсутвует специалист, то в словарь необходимо добавить специалиста из предыдущей итерации
             if row[0] != '':
                 one_record['user'] = last_user = row[0]
