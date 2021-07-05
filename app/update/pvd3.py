@@ -5,14 +5,18 @@ from app.date_formats.date_formats import get_str_date, transform_date_to_int
 from pprint import pprint
 
 
-class UpdatePvd3(Session):
+class UpdatePvd3():
     """Класс получения данных из ПК ПВД 3"""
-    def __init__(self, url, username, password, filial_number):
+    def __init__(self, url, username, password):
         self.url = url
         self.username = username
         self.password = password
-        self.filial_number = filial_number
+        self.filial_number = ''
         self.session = Session()
+
+    def set_filial_number(filial_number):
+        """Задаётся номер филиала"""
+        self.filial_number = filial_number
 
     def _get_login_url(self) -> str:
         """Возвращает url адрес авторицации в ПК ПВД 3"""
@@ -114,5 +118,6 @@ pvd3_username = 'i.merkulov',
 pvd3_password = 'zmr00A'
 pvd3_filial_number = 'MFC-000002595'
 
-pvd3_data = UpdatePvd3(pvd3_url, pvd3_username, pvd3_password, pvd3_filial_number)
+pvd3_data = UpdatePvd3(pvd3_url, pvd3_username, pvd3_password)
+pvd3_data.set_filial_number(pvd3_filial_number)
 pprint(pvd3_data.get_pvd_data(2021, 7, 3))
