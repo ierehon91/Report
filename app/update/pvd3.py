@@ -14,7 +14,7 @@ class UpdatePvd3():
         self.filial_number = ''
         self.session = Session()
 
-    def set_filial_number(filial_number):
+    def set_filial_number(self, filial_number):
         """Задаётся номер филиала"""
         self.filial_number = filial_number
 
