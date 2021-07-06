@@ -1,8 +1,6 @@
 from requests import Session
-from datetime import datetime
 import re
 from app.date_formats.date_formats import get_str_date, transform_date_to_int
-from pprint import pprint
 
 
 class UpdatePvd3():
@@ -111,13 +109,3 @@ class UpdatePvd3():
                                  'program_name': 'ПК ПВД 3'
                                  })
         return data
-
-
-pvd3_url = '10.36.35.13'
-pvd3_username = 'i.merkulov',
-pvd3_password = 'zmr00A'
-pvd3_filial_number = 'MFC-000002595'
-
-pvd3_data = UpdatePvd3(pvd3_url, pvd3_username, pvd3_password)
-pvd3_data.set_filial_number(pvd3_filial_number)
-pprint(pvd3_data.get_pvd_data(2021, 7, 3))

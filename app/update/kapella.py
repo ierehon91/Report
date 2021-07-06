@@ -1,7 +1,6 @@
 import csv
 import os
 import codecs
-from pprint import pprint
 from app.date_formats.date_formats import get_str_date
 
 
@@ -34,7 +33,3 @@ class UpdateKapella():
             one_record['program_name'] = 'АИС Капелла'  # название программы
             data.append(one_record)
         return data
-
-
-kapella = UpdateKapella('test.csv', '$')
-pprint(kapella.get_data(2021, 6, 30))

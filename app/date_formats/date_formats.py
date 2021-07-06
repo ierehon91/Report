@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def get_str_date(year: int, month: int, day: int) -> str:
     """Преобразовывает дату в строку формата гггг-мм-дд"""
     if day >= 10:
