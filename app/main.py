@@ -2,8 +2,8 @@ import app.update.kapella as update_kapella
 import app.update.pvd3 as update_pvd3
 import app.update.gibrit as update_gibrit
 
-day = 30
-month = 6
+day = 6
+month = 7
 year = 2021
 
 pvd3_url = '10.36.35.13'
@@ -24,7 +24,7 @@ gibrit_url = '10.10.251.2:9000'
 
 gibrit = update_gibrit.UpdateGibrit(gibrit_url)
 gibrit.authorization_gibrit(gibrit_login, gibrit_password)
-gibrit_data = gibrit.get_gibrit_data(year, month, day)
+gibrit_data = gibrit.filial_gibrit_data(year, month, day, alias='Семилуки')
 gibrit.close()
 
 # print(kapella_data)

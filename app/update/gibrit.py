@@ -42,9 +42,12 @@ class UpdateGibrit():
         data = self._get_parse_data(year, month, day)
         return json.loads(data.text)
 
+    def filial_gibrit_data(self, year, month, day, alias=''):
+        filial_data = []
+        for row in self.get_gibrit_data(year, month, day):
+            if alias in row['terminalName']:
+                filial_data.append(row)
+        return filial_data
+
     def close(self):
         self.session.get(f'http://{self.url}/logout')
-
-
-class ParseGibritDate():
-    pass
