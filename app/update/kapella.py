@@ -1,7 +1,7 @@
 import csv
 import os
 import codecs
-from app.date_formats.date_formats import get_str_date
+from app.date_formats.date_formats import get_str_date_1
 
 
 class UpdateKapella():
@@ -22,7 +22,7 @@ class UpdateKapella():
         data = []
         for row in file_reader:
             one_record = {}
-            one_record['date_reception'] = get_str_date(year, month, day)  # дата приёма
+            one_record['date_reception'] = get_str_date_1(year, month, day)  # дата приёма
             # Если в csv файле отсутвует специалист, то в словарь необходимо добавить специалиста из предыдущей итерации
             if row[0] != '':
                 one_record['user'] = last_user = row[0]

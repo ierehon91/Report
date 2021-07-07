@@ -1,6 +1,6 @@
 from requests import Session
 import re
-from app.date_formats.date_formats import get_str_date, transform_date_to_int
+from app.date_formats.date_formats import get_str_date_1, transform_date_to_int
 
 
 class UpdatePvd3():
@@ -93,7 +93,7 @@ class UpdatePvd3():
         filter_data = self._filter_data(year, month, day)
         users = self._get_users(filter_data)
         services = self._get_services(filter_data)
-        date = get_str_date(year, month, day)
+        date = get_str_date_1(year, month, day)
         data = []
         for user in users:
             for service in services:
