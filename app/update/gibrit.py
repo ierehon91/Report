@@ -44,3 +44,7 @@ class UpdateGibrit():
 
     def close(self):
         self.session.get(f'http://{self.url}/logout')
+
+
+class ParseGibritDate():
+    pass
