@@ -5,28 +5,33 @@ from app.date_formats.date_formats import get_str_date_1, transform_date_to_int
 
 class UpdatePvd3():
     """Класс получения данных из ПК ПВД 3"""
-    def __init__(self, url, username, password):
+    def __init__(self, url):
         self.url = url
-        self.username = username
-        self.password = password
+        self.username = ''
+        self.password = ''
         self.filial_number = ''
         self.session = Session()
-
-    def set_filial_number(self, filial_number):
-        """Задаётся номер филиала"""
-        self.filial_number = filial_number
 
     def _get_login_url(self) -> str:
         """Возвращает url адрес авторицации в ПК ПВД 3"""
         return rf'http://{self.url}/api/rs/login'
 
-    def _get_login_data(self) -> dict:
+    def _get_login_data(self, username, password) -> dict:
         """Возвращает словарь с логином и паролем для авторизации в ПК ПВД 3"""
+        self.username = username
+        self.password = password
         return {'username': self.username, 'password': self.password}
+
+    def authorization(self, username, password):
+        self.session.post(url=self._get_login_url(), data=self._get_login_data(username, password))
 
     def _get_report_url(self) -> str:
         """Возвращает url адрес формирования очётов в ПК ПВД 3"""
         return rf'http://{self.url}/api/rs/reports/execute'
+
+    def set_filial_number(self, filial_number):
+        """Задаётся номер филиала"""
+        self.filial_number = filial_number
 
     def _get_report_data(self, year, month, day) -> dict:
         """Возвращает словарь с данными для составления отчёта в ПК ПВД 3 по форме Список обращений"""
@@ -47,7 +52,6 @@ class UpdatePvd3():
 
     def _parse_pvd_data(self, year, month, day):
         """request метод для получения данных"""
-        self.session.post(url=self._get_login_url(), data=self._get_login_data())
         return self.session.post(url=self._get_report_url(), json=self._get_report_data(year, month, day)).text
 
     def _get_list_data(self, year, month, day):
