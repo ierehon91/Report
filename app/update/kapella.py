@@ -33,3 +33,15 @@ class UpdateKapella():
             one_record['program_name'] = 'АИС Капелла'  # название программы
             data.append(one_record)
         return data
+
+
+def main():
+    day = 14
+    month = 7
+    year = 2021
+    kapella = UpdateKapella(r'..\temp\kapella_data.csv', delimiter='$')
+    return kapella.get_data(year, month, day)
+
+
+if __name__ == '__main__':
+    main()

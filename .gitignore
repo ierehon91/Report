@@ -1,5 +1,5 @@
 /venv
-/app/config.py
+/app/
 /app/__pycache__
 /app/update/__pycache__
 /app/date_formats/__pycache__

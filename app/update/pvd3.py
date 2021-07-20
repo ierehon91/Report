@@ -1,9 +1,10 @@
 from requests import Session
 import re
 from app.date_formats.date_formats import get_str_date_1, transform_date_to_int
+import app.config as config
 
 
-class UpdatePvd3():
+class UpdatePvd3:
     """Класс получения данных из ПК ПВД 3"""
     def __init__(self, url):
         self.url = url
@@ -113,3 +114,17 @@ class UpdatePvd3():
                                  'program_name': 'ПК ПВД 3'
                                  })
         return data
+
+
+def main():
+    day = 14
+    month = 7
+    year = 2021
+    pvd3 = UpdatePvd3(config.pvd3_url)
+    pvd3.authorization(config.pvd3_username, config.pvd3_password)
+    pvd3.set_filial_number(config.pvd3_filial_number)
+    return pvd3.get_pvd_data(year, month, day)
+
+
+if __name__ == '__main__':
+    main()

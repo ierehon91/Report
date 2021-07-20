@@ -134,6 +134,9 @@ def parse_all_mkgu_data(mkgu_accounts,
     return reports
 
 
+def main():
+    return parse_all_mkgu_data(config.mkgu_accounts, 2021, 7, 1, 2021, 7, 17)
+
+
 if __name__ == '__main__':
-    report = parse_all_mkgu_data(config.mkgu_accounts, 2021, 7, 1, 2021, 7, 17)
-    pprint(report)
+    main()

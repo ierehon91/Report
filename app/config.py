@@ -51,3 +51,7 @@ mkgu_accounts = [
      'login': 'mkgu_starayaveduga@mydocuments36.ru',
      'password': 'HwQQCE'}
 ]
+
+eo_url = '10.10.5.54:9081'
+eo_login = 'admin_Semiluki'
+eo_password = 'vm69go'
