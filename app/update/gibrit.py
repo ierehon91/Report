@@ -1,9 +1,10 @@
 import requests
 import json
 from app.date_formats.date_formats import get_str_date_2
+import app.config as config
 
 
-class UpdateGibrit():
+class UpdateGibrit:
     """Класс для получения данных системы Гибрит"""
     def __init__(self, url):
         self.url = url
@@ -59,3 +60,18 @@ class UpdateGibrit():
     def close(self):
         """Выход из системы Гибрит"""
         self.session.get(f'http://{self.url}/logout')
+
+
+def main():
+    day = 14
+    month = 7
+    year = 2021
+    gibrit = UpdateGibrit(config.gibrit_url)
+    gibrit.authorization(config.gibrit_login, config.gibrit_password)
+    gibrit_data = gibrit.get_gibrit_data(year, month, day)
+    gibrit.close()
+    return gibrit_data
+
+
+if __name__ == '__main__':
+    main()
