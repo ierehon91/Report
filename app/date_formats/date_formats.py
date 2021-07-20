@@ -36,3 +36,12 @@ def transform_date_to_int(year, month, day) -> int:
     """Преобразовывает дату в целочисленное значение"""
     dt = datetime(year, month, day)
     return int(round(dt.timestamp() * 1000))
+
+
+def str_to_int_time(time_str):
+    """Get Seconds from time."""
+    if time_str == '0':
+        return 0
+    else:
+        h, m, s = time_str.split(':')
+        return (int(h) * 3600 + int(m) * 60 + int(s)) * 1000

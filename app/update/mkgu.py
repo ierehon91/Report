@@ -126,7 +126,7 @@ def parse_all_mkgu_data(mkgu_accounts,
                         ) -> list:
     mkgu = UpdateMKGU()
     reports = []
-    for account in mkgu_accounts:
+    for account in mkgu_accounts[:1]:
         print('Парсим: ' + account['name'])
         mkgu.authorization(account['login'], account['password'])
         reports.append(mkgu.get_report(first_year, first_month, first_day, last_year, last_month, last_day))
@@ -139,4 +139,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    print(main())
