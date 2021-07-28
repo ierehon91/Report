@@ -1,3 +1,4 @@
+.gitignore
 /venv
 /app/__pycache__
 /app/config.py
@@ -5,3 +6,4 @@
 /app/date_formats/__pycache__
 /.idea
 /temp
+/doc

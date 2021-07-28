@@ -120,13 +120,12 @@ class UpdateMKGU:
         self.session.post(url=self.logout_url, data=logout_data)
 
 
-def parse_all_mkgu_data(mkgu_accounts,
-                        first_year, first_month, first_day,
+def parse_all_mkgu_data(first_year, first_month, first_day,
                         last_year, last_month, last_day
                         ) -> list:
     mkgu = UpdateMKGU()
     reports = []
-    for account in mkgu_accounts[:1]:
+    for account in config.mkgu_accounts:
         print('Парсим: ' + account['name'])
         mkgu.authorization(account['login'], account['password'])
         reports.append(mkgu.get_report(first_year, first_month, first_day, last_year, last_month, last_day))
@@ -135,7 +134,7 @@ def parse_all_mkgu_data(mkgu_accounts,
 
 
 def main():
-    return parse_all_mkgu_data(config.mkgu_accounts, 2021, 7, 1, 2021, 7, 17)
+    return parse_all_mkgu_data(2021, 7, 1, 2021, 7, 28)
 
 
 if __name__ == '__main__':
