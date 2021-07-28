@@ -175,7 +175,7 @@ class UpdateEO:
 def main():
     eo = UpdateEO(config.eo_url)
     eo.authorization(config.eo_login, config.eo_password)
-    eo.set_report_params(2021, 7, 20, 2021, 7, 20)
+    eo.set_report_params(2021, 7, 3, 2021, 7, 3)
     report = eo.get_report()
     eo.logout()
     return report

@@ -1,8 +1,9 @@
 import csv
 import os
 import codecs
-from app.date_formats.date_formats import get_str_date_1
 
+from app.date_formats.date_formats import get_str_date_1
+import app.config as config
 
 class UpdateKapella:
     """Класс получения данных csv файла, сформированного из АИС Капелла"""
@@ -10,15 +11,15 @@ class UpdateKapella:
         self.file_path = os.path.abspath(path)  # путь к csv файлу
         self.delimiter = delimiter  # символ разделитель в csv файле
 
-    def _open_csv_file(self) -> list:
+    def __open_csv_file(self) -> list:
         """Открывает файл csv и возвращает его содержимое в виде списка"""
         with codecs.open(self.file_path, 'rU', 'utf-16') as r_file:
             return list(csv.reader(r_file, delimiter=self.delimiter))
 
-    def get_data(self, year: int, month: int, day: int) -> list:
+    def get_report(self, year: int, month: int, day: int) -> list:
         """Приём документов за определенную дату из АИС Капелла."""
         try:
-            file_reader = self._open_csv_file()
+            file_reader = self.__open_csv_file()
         except FileNotFoundError:
             print(f"Файл {self.file_path} не найден.")
         else:
@@ -44,8 +45,8 @@ def main():
     day = 14
     month = 7
     year = 2021
-    kapella = UpdateKapella(r'..\..\temp\kapella_data.csv', delimiter='$')
-    return kapella.get_data(year, month, day)
+    kapella = UpdateKapella(r'..\..\temp\kapella_data.csv', delimiter=config.kapella_delimiter)
+    return kapella.get_report(year, month, day)
 
 
 if __name__ == '__main__':
